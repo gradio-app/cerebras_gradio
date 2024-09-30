@@ -16,10 +16,10 @@ That's it!
 
 # Basic Usage
 
-Just like if you were to use the `cerebras` client, you should first save your cerebras API token to this environment variable:
+Just like if you were to use the `Cerebras` client, you should first save your Cerebras API token to this environment variable:
 
 ```
-export cerebras_API_TOKEN=<your token>
+export CEREBRAS_API_KEY=<your api key>
 ```
 
 Then in a Python file, write:
@@ -29,29 +29,26 @@ import gradio as gr
 import cerebras_gradio
 
 gr.load(
-    name='black-forest-labs/flux-schnell',
-    src=cerebras_gradio.registry
+    name='llama3.1-8b',
+    src=cerebras_gradio.models
 ).launch()
 ```
 
-Run the Python file, and you should see a Gradio Interface connected to the model on cerebras!
+Run the Python file, and you should see a Gradio Chat UI connected to the model on Cerebras!
 
-<img width="1246" alt="image" src="https://github.com/user-attachments/assets/2c975cbd-965f-4967-9468-d791aabfc9aa">
 
 
 # Customization 
 
-Once you can create a Gradio UI from a cerebras endpoint, you can customize it by setting your own input and output components, or any other arguments to `gr.Interface`. For example, the screenshot above was generated with:
+Once you can create a Gradio UI from a cerebras endpoint, you can customize it by setting your own title or examples, or any other arguments to `gr.ChatInterface`. For example, the screenshot above was generated with:
 
 ```py
 import gradio as gr
 import cerebras_gradio
 
 gr.load(
-    name='black-forest-labs/flux-schnell',
-    src=cerebras_gradio.registry,
-    inputs=gr.Textbox(lines=4),
-    examples=["a 19th century portrait of a man on the moon", "a small cartoon mouse eating an ice cream cone"],
+    name='llama3.1-70b',
+    src=cerebras_gradio.models
 ).launch()
 ```
 
@@ -66,9 +63,9 @@ import cerebras_gradio
 
 with gr.Blocks() as demo:
     with gr.Tab("SDXL"):
-        gr.load('cerebras-ai/fast-sdxl', src=cerebras_gradio.registry)
+        gr.load('llama3.1-70b', src=cerebras_gradio.models)
     with gr.Tab("Flux"):
-        gr.load('black-forest-labs/flux-schnell', src=cerebras_gradio.registry)
+        gr.load('llama3.1-8b', src=cerebras_gradio.models)
 
 demo.launch()
 ```
@@ -79,10 +76,10 @@ The `cerebras-gradio` Python library has two dependencies: `cerebras` and `gradi
 
 -------
 
-Note: if you are getting a 401 authentication error, then the cerebras API Client is not able to get the API token from the environment variable. This happened to me as well, in which case save it in your Python session, like this:
+Note: if you are getting an authentication error, then the cerebras API Client is not able to get the API token from the environment variable. This happened to me as well, in which case save it in your Python session, like this:
 
 ```py
 import os
 
-os.environ["cerebras_API_TOKEN"] = ...
+os.environ["CEREBRAS_API_KEY"] = ...
 ```

@@ -23,7 +23,7 @@ def get_pipeline(model):
     pipeline = "text-to-image"
     return pipeline
 
-def registry(name: str, token: str | None, inputs=None, outputs=None, **kwargs) -> gr.Interface:
+def models(name: str, token: str | None, inputs=None, outputs=None, **kwargs) -> gr.Interface:
     """
     Create a Gradio Interface for a model on cerebras.
     Parameters:
