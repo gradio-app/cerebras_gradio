@@ -17,8 +17,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "gradio",
-    "cerebras",
+    "gradio==5.0b5",
+    "cerebras_cloud_sdk",
 ]
 
 [project.urls]
