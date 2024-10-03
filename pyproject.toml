@@ -18,7 +18,7 @@ classifiers = [
 ]
 dependencies = [
     "gradio",
-    "cerebras",
+    "cerebras_cloud_sdk",
 ]
 
 [project.urls]
@@ -30,4 +30,3 @@ dev = ["pytest"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["cerebras_gradio"]
-
