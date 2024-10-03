@@ -17,7 +17,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "gradio==5.0b5",
+    "gradio",
     "cerebras_cloud_sdk",
 ]
 
@@ -30,4 +30,3 @@ dev = ["pytest"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["cerebras_gradio"]
-

@@ -5,14 +5,14 @@ from cerebras.cloud.sdk import Cerebras
 
 __version__ = "0.0.1"
 
-def get_fn(model_name: str, preprocess: Callable, postprocess: Callable):
+def get_fn(model_name: str, preprocess: Callable, postprocess: Callable, api_key: str):
     def fn(message, history):
         # Preprocess the inputs
         inputs = preprocess(message, history)
 
         # Initialize the Cerebras client for Cerebras
         client = Cerebras(
-            api_key=os.environ.get("CEREBRAS_API_KEY"),
+            api_key=api_key, #os.environ.get("CEREBRAS_API_KEY"),
         )
 
         # Call the Cerebras Client with streaming enabled
@@ -55,23 +55,23 @@ def get_pipeline(model_name):
     # For simplicity, assuming all models are chat models at the moment
     return "chat"
 
-def registry(name: str, api_key: str = None, **kwargs):
+def registry(name: str, token: str | None = None, **kwargs):
     """
     Create a Gradio Interface for a model on Cerebras.
 
     Parameters:
         - name (str): The name of the model on Cerebras.
-        - api_key (str, optional): The API key for Cerebras.
+        - token (str, optional): The API key for Cerebras.
     """
     # Ensure the Cerebras API key is set
-    api_key = api_key or os.environ.get("CEREBRAS_API_KEY")
+    api_key = token or os.environ.get("CEREBRAS_API_KEY")
     if not api_key:
         raise ValueError("CEREBRAS_API_KEY environment variable is not set.")
 
     # Determine the pipeline type
     pipeline = get_pipeline(name)
     inputs, outputs, preprocess, postprocess = get_interface_args(pipeline)
-    fn = get_fn(name, preprocess, postprocess)
+    fn = get_fn(name, preprocess, postprocess, api_key)
 
     if pipeline == "chat":
         # Create a Gradio ChatInterface
