@@ -19,7 +19,7 @@ That's it!
 Just like if you were to use the `Cerebras` Client, you should first save your Cerebras API token to this environment variable:
 
 ```
-export CEREBRAS_API_TOKEN=<your token>
+export CEREBRAS_API_KEY=<your api key>
 ```
 
 Then in a Python file, write:
@@ -87,5 +87,5 @@ Note: if you are getting a 401 authentication error, then the Cerebras API Clien
 ```py
 import os
 
-os.environ["CEREBRAS_API_TOKEN"] = ...
+os.environ["CEREBRAS_API_KEY"] = ...
 ```

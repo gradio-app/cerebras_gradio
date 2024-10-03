@@ -5,6 +5,7 @@ from cerebras.cloud.sdk import Cerebras
 
 __version__ = "0.0.1"
 
+
 def get_fn(model_name: str, preprocess: Callable, postprocess: Callable, api_key: str):
     def fn(message, history):
         inputs = preprocess(message, history)
@@ -13,7 +14,7 @@ def get_fn(model_name: str, preprocess: Callable, postprocess: Callable, api_key
         )
         completion = client.chat.completions.create(
             model=model_name,
-            messages=inputs['messages'],
+            messages=inputs["messages"],
             stream=True,
         )
 
@@ -23,29 +24,34 @@ def get_fn(model_name: str, preprocess: Callable, postprocess: Callable, api_key
             delta = chunk.choices[0].delta.content or ""
             response_text += delta
             yield postprocess(response_text)
+
     return fn
+
 
 def get_interface_args(pipeline):
     if pipeline == "chat":
         inputs = None
         outputs = None
+
         def preprocess(message, history):
             messages = []
             for user_msg, assistant_msg in history:
                 messages.append({"role": "user", "content": user_msg})
                 messages.append({"role": "assistant", "content": assistant_msg})
             messages.append({"role": "user", "content": message})
-            return {'messages': messages}
+            return {"messages": messages}
 
         postprocess = lambda x: x
     else:
         raise ValueError(f"Unsupported pipeline type: {pipeline}")
     return inputs, outputs, preprocess, postprocess
 
+
 def get_pipeline(model_name):
     # Determine the pipeline type based on the model name
     # For simplicity, assuming all models are chat models at the moment
     return "chat"
+
 
 def registry(name: str, token: str | None = None, **kwargs):
     """
